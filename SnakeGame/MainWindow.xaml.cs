@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace SnakeGame
 {
@@ -21,68 +23,57 @@ namespace SnakeGame
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<Rectangle> snake = new List<Rectangle>();
+        DispatcherTimer timer;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            createHlava();
-            createBodyPart();
-            createTail();
+            for (int i = 0; i < 3; i++)
+            {
+                createBodyPart();
+            }
+            for (int i = 0; i < snake.Count; i++)
+            {
+                mainGrid.Children.Add(snake.ElementAt(i));
+                Grid.SetColumn(snake.ElementAt(i), 5 - i);
+                Grid.SetRow(snake.ElementAt(i), 7);
+            }
+
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(0.5);
+            timer.Tick += Timer_Tick;
+            timer.Start();
         }
 
-        List<Rectangle> Snake = new List<Rectangle>();
-        public void createHlava()
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            Rectangle head = new Rectangle();
-            head.Height = 45;
-            head.Width = 45;
-            head.Fill = Brushes.Green;
-            head.StrokeThickness = 3;
-            head.Stroke = Brushes.Black;
-
-            head.RadiusX = 50;
-            head.RadiusY = 50;
-
-            mainGrid.Children.Add(head);
-            Grid.SetRow(head, 7);
-            Grid.SetColumn(head, 7);
-            Snake.Add(head);
+            moveSnakeRight();
         }
 
         public void createBodyPart()
         {
             Rectangle body = new Rectangle();
             body.Height = 45;
-            body.Width =45;
-            body.Fill = Brushes.Blue;
+            body.Width = 45;
+            body.Fill = Brushes.Green;
             body.StrokeThickness = 3;
             body.Stroke = Brushes.Black;
 
             body.RadiusX = 50;
             body.RadiusY = 50;
 
-            mainGrid.Children.Add(body);
-            Grid.SetRow(body, 7);
-            Grid.SetColumn(body, 6);
-            Snake.Add(body);
+            snake.Add(body);
         }
 
-        public void createTail()
+        public void moveSnakeRight()
         {
-            Rectangle tail = new Rectangle();
-            tail.Height = 45;
-            tail.Width = 45;
-            tail.Fill = Brushes.Red;
-            tail.StrokeThickness = 3;
-            tail.Stroke = Brushes.Black;
-
-            tail.RadiusX = 50;
-            tail.RadiusY = 50;
-
-            mainGrid.Children.Add(tail);
-            Grid.SetRow(tail, 7);
-            Grid.SetColumn(tail, 5);
-            Snake.Add(tail);
+            for (int i = 0; i < snake.Count; i++)
+            {
+                int currentColumn = Grid.GetColumn(snake.ElementAt(i));
+                Grid.SetColumn(snake.ElementAt(i), currentColumn + 1);
+            }
         }
     }
 }
