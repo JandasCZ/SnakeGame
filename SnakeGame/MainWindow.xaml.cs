@@ -26,6 +26,8 @@ namespace SnakeGame
             InitializeComponent();
 
             createHlava();
+            createBodyPart();
+            createTail();
         }
 
         List<Rectangle> Snake = new List<Rectangle>();
@@ -52,10 +54,16 @@ namespace SnakeGame
             Rectangle body = new Rectangle();
             body.Height = 45;
             body.Width =45;
-            body.Fill = Brushes.Green;
+            body.Fill = Brushes.Blue;
             body.StrokeThickness = 3;
             body.Stroke = Brushes.Black;
 
+            body.RadiusX = 50;
+            body.RadiusY = 50;
+
+            mainGrid.Children.Add(body);
+            Grid.SetRow(body, 7);
+            Grid.SetColumn(body, 6);
             Snake.Add(body);
         }
 
@@ -64,13 +72,16 @@ namespace SnakeGame
             Rectangle tail = new Rectangle();
             tail.Height = 45;
             tail.Width = 45;
-            tail.Fill = Brushes.Green;
+            tail.Fill = Brushes.Red;
             tail.StrokeThickness = 3;
             tail.Stroke = Brushes.Black;
 
             tail.RadiusX = 50;
             tail.RadiusY = 50;
 
+            mainGrid.Children.Add(tail);
+            Grid.SetRow(tail, 7);
+            Grid.SetColumn(tail, 5);
             Snake.Add(tail);
         }
     }
