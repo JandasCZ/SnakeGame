@@ -47,9 +47,18 @@ namespace SnakeGame
             timer.Start();
         }
 
+        
+
         private void Timer_Tick(object sender, EventArgs e)
         {
-            moveSnakeRight();
+            if(Keyboard.IsKeyDown(Key.D))
+            {
+                moveSnakeRight();
+            }
+            if (Keyboard.IsKeyDown(Key.A))
+            {
+                moveSnakeLeft();
+            }
         }
 
         public void createBodyPart()
@@ -73,6 +82,40 @@ namespace SnakeGame
             {
                 int currentColumn = Grid.GetColumn(snake.ElementAt(i));
                 Grid.SetColumn(snake.ElementAt(i), currentColumn + 1);
+            }
+        }
+
+        public void moveSnakeLeft()
+        {
+            for (int i = 0; i < snake.Count; i++)
+            {
+                int currentColumn = Grid.GetColumn(snake.ElementAt(i));
+                Grid.SetColumn(snake.ElementAt(i), currentColumn - 1);
+            }
+        }
+
+        private void KeyPressess(object sender, KeyEventArgs e)
+        {
+            switch(e.Key)
+            {
+                /*
+                case Key.W:
+                    {
+                        moveSnakeUp();
+                        break;
+                    }
+
+                case Key.S:
+                    {
+                        moveSnakeDown();
+                        break;
+                    }
+                */
+                case Key.A:
+                    {
+                        moveSnakeLeft();
+                        break;
+                    }
             }
         }
     }
