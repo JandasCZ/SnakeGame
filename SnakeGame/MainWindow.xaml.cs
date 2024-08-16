@@ -30,7 +30,7 @@ namespace SnakeGame
         {
             InitializeComponent();
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 1; i++)
             {
                 createBodyPart();
             }
@@ -51,6 +51,7 @@ namespace SnakeGame
 
         private void Timer_Tick(object sender, EventArgs e)
         {
+/*
             if(Keyboard.IsKeyDown(Key.D))
             {
                 moveSnakeRight();
@@ -59,6 +60,25 @@ namespace SnakeGame
             {
                 moveSnakeLeft();
             }
+*/
+            direction();
+            if(direction() == 0)
+            {
+                moveSnakeRight();
+            }
+            if(direction() == 1)
+            {
+                moveSnakeLeft();
+            }
+            if(direction() == 2)
+            {
+                moveSnakeUp();
+            }
+            if(direction() == 3)
+            {
+                moveSnakeDown();
+            }
+            
         }
 
         public void createBodyPart()
@@ -94,29 +114,45 @@ namespace SnakeGame
             }
         }
 
-        private void KeyPressess(object sender, KeyEventArgs e)
+        public void moveSnakeUp()
         {
-            switch(e.Key)
+            for (int i = 0; i < snake.Count; i++)
             {
-                /*
-                case Key.W:
-                    {
-                        moveSnakeUp();
-                        break;
-                    }
-
-                case Key.S:
-                    {
-                        moveSnakeDown();
-                        break;
-                    }
-                */
-                case Key.A:
-                    {
-                        moveSnakeLeft();
-                        break;
-                    }
+                int currentRow = Grid.GetRow(snake.ElementAt(i));
+                Grid.SetRow(snake.ElementAt(i), currentRow - 1);
             }
+        }
+
+        public void moveSnakeDown()
+        {
+            for (int i = 0; i < snake.Count; i++)
+            {
+                int currentRow = Grid.GetRow(snake.ElementAt(i));
+                Grid.SetRow(snake.ElementAt(i), currentRow + 1);
+            }
+        }
+
+        int direc = 0;
+        public int direction()
+        {
+            if (Keyboard.IsKeyDown(Key.D))
+            {
+                direc = 0;
+            }
+            if (Keyboard.IsKeyDown(Key.A))
+            {
+                direc = 1;
+            }
+            if (Keyboard.IsKeyDown(Key.W))
+            {
+                direc = 2;
+            }
+            if (Keyboard.IsKeyDown(Key.S))
+            {
+                direc = 3;
+            }
+
+            return direc;
         }
     }
 }
