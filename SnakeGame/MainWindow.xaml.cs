@@ -51,16 +51,6 @@ namespace SnakeGame
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-/*
-            if(Keyboard.IsKeyDown(Key.D))
-            {
-                moveSnakeRight();
-            }
-            if (Keyboard.IsKeyDown(Key.A))
-            {
-                moveSnakeLeft();
-            }
-*/
             direction();
             if(direction() == 0)
             {
@@ -137,19 +127,47 @@ namespace SnakeGame
         {
             if (Keyboard.IsKeyDown(Key.D))
             {
-                direc = 0;
+                if (direc == 1)
+                {
+
+                }
+                else
+                {
+                    direc = 0;
+                }
             }
             if (Keyboard.IsKeyDown(Key.A))
             {
-                direc = 1;
+                if(direc == 0)
+                {
+
+                }
+                else
+                {
+                    direc = 1;
+                }
             }
             if (Keyboard.IsKeyDown(Key.W))
             {
-                direc = 2;
+                if (direc == 3)
+                {
+
+                }
+                else
+                {
+                    direc = 2;
+                }
             }
             if (Keyboard.IsKeyDown(Key.S))
             {
-                direc = 3;
+                if (direc == 2)
+                {
+
+                }
+                else
+                {
+                    direc = 3;
+                }
             }
 
             return direc;
