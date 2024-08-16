@@ -92,7 +92,14 @@ namespace SnakeGame
             for (int i = 0; i < snake.Count; i++)
             {
                 int currentColumn = Grid.GetColumn(snake.ElementAt(i));
-                Grid.SetColumn(snake.ElementAt(i), currentColumn + 1);
+                if(currentColumn == 14)
+                {
+                    gameOver();
+                }
+                else
+                {
+                    Grid.SetColumn(snake.ElementAt(i), currentColumn + 1);
+                }
             }
         }
 
@@ -101,7 +108,14 @@ namespace SnakeGame
             for (int i = 0; i < snake.Count; i++)
             {
                 int currentColumn = Grid.GetColumn(snake.ElementAt(i));
-                Grid.SetColumn(snake.ElementAt(i), currentColumn - 1);
+                if(currentColumn == 0)
+                {
+                    gameOver();
+                }
+                else
+                {
+                    Grid.SetColumn(snake.ElementAt(i), currentColumn - 1);
+                }
             }
         }
 
@@ -110,7 +124,14 @@ namespace SnakeGame
             for (int i = 0; i < snake.Count; i++)
             {
                 int currentRow = Grid.GetRow(snake.ElementAt(i));
-                Grid.SetRow(snake.ElementAt(i), currentRow - 1);
+                if(currentRow == 0)
+                {
+                    gameOver();
+                }
+                else
+                {
+                    Grid.SetRow(snake.ElementAt(i), currentRow - 1);
+                }
             }
         }
 
@@ -119,7 +140,14 @@ namespace SnakeGame
             for (int i = 0; i < snake.Count; i++)
             {
                 int currentRow = Grid.GetRow(snake.ElementAt(i));
-                Grid.SetRow(snake.ElementAt(i), currentRow + 1);
+                if(currentRow == 14)
+                {
+                    gameOver();
+                }
+                else
+                {
+                    Grid.SetRow(snake.ElementAt(i), currentRow + 1);
+                }
             }
         }
 
@@ -178,8 +206,6 @@ namespace SnakeGame
         {
             timer.Stop();
             labelGameOver.Visibility = Visibility.Visible;
-
-
         }
     }
 }
