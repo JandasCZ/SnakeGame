@@ -23,6 +23,7 @@ namespace SnakeGame
     /// </summary>
     public partial class MainWindow : Window
     {
+                                                                                                        //HLAVNÍ SPUŠTĚNÝ KÓD
         List<Rectangle> snake = new List<Rectangle>();
         DispatcherTimer timer;
 
@@ -30,7 +31,7 @@ namespace SnakeGame
         {
             InitializeComponent();
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 3; i++)
             {
                 createBodyPart();
             }
@@ -48,7 +49,7 @@ namespace SnakeGame
         }
 
         
-
+                                                                                                        //RUTINA KAŽDÉHO TICKU TIMERU
         private void Timer_Tick(object sender, EventArgs e)
         {
             direction();
@@ -70,7 +71,7 @@ namespace SnakeGame
             }
             
         }
-
+                                                                                                        //VYTVOŘENÍ BODY PARTU SNAKA
         public void createBodyPart()
         {
             Rectangle body = new Rectangle();
@@ -85,7 +86,7 @@ namespace SnakeGame
 
             snake.Add(body);
         }
-
+                                                                                                        //MOVEMENT
         public void moveSnakeRight()
         {
             for (int i = 0; i < snake.Count; i++)
@@ -171,6 +172,14 @@ namespace SnakeGame
             }
 
             return direc;
+        }
+                                                                                                        //GAME OVER STATUS
+        public void gameOver()
+        {
+            timer.Stop();
+            labelGameOver.Visibility = Visibility.Visible;
+
+
         }
     }
 }

@@ -41,5 +41,17 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-    </Grid>
+		<Label x:Name="labelGameOver"
+			   Content="Game Over"
+			   Grid.Column="6"
+			   Grid.ColumnSpan="3"
+			   Grid.Row="6"
+			   Grid.RowSpan="2"
+			   HorizontalContentAlignment="Center"
+			   VerticalContentAlignment="Center"
+			   FontSize="25"
+			   Background="Black"
+			   Foreground="White"
+			   Visibility="Hidden"/>
+	</Grid>
 </Window>
