@@ -50,6 +50,8 @@ namespace SnakeGame
                                                                                                         //RUTINA KAŽDÉHO TICKU TIMERU
         private void Timer_Tick(object sender, EventArgs e)
         {
+            isColliding();
+
             isEating();
 
             bodyMove();
@@ -296,6 +298,24 @@ namespace SnakeGame
                 mainGrid.Children.Add(snake.Last());
             }
         }
+
+        public void isColliding()
+        {
+            for(int i = snake.Count - 1; i >= 1; i--)
+            {
+
+                int columnPosition = Grid.GetColumn(snake[i]);
+                int rowPosition = Grid.GetRow(snake[i]);
+
+                int headColumnPosition = Grid.GetColumn(snake[0]);
+                int headRowPosition = Grid.GetRow(snake[0]);
+
+                if (columnPosition == headColumnPosition && rowPosition == headRowPosition)
+                {
+                    gameOver();
+                }
+            }
+        }
                                                                                                         //GAME OVER STATUS
         public void gameOver()
         {
@@ -314,10 +334,6 @@ namespace SnakeGame
             var currentExecutablePath = Process.GetCurrentProcess().MainModule.FileName;
             Process.Start(currentExecutablePath);
             Application.Current.Shutdown();
-
-            labelGameOver.Visibility = Visibility.Hidden;
-            buttonRestart.Visibility = Visibility.Hidden;
-            buttonEnd.Visibility = Visibility.Hidden;
         }
 
         private void buttonEnd_Click(object sender, RoutedEventArgs e)
