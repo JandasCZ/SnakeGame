@@ -6,52 +6,68 @@
         xmlns:local="clr-namespace:SnakeGame"
         mc:Ignorable="d"
         Title="MainWindow" Height="750" Width="750" Background="Gray" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
-    <Grid x:Name="mainGrid">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-		<Label x:Name="labelGameOver"
-			   Content="Game Over"
-			   Grid.Column="6"
-			   Grid.ColumnSpan="3"
-			   Grid.Row="6"
-			   Grid.RowSpan="2"
-			   HorizontalContentAlignment="Center"
-			   VerticalContentAlignment="Center"
-			   FontSize="25"
-			   Background="Black"
-			   Foreground="White"
-			   Visibility="Hidden"/>
-	</Grid>
+    <Border BorderBrush="Black" BorderThickness="5">
+        <Grid x:Name="mainGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="labelGameOver"
+			       Content="Game Over"
+			       Grid.Column="6"
+			       Grid.ColumnSpan="3"
+			       Grid.Row="6"
+			       Grid.RowSpan="2"
+			       HorizontalContentAlignment="Center"
+			       VerticalContentAlignment="Center"
+			       FontSize="25"
+			       Background="Black"
+			       Foreground="White"
+			       Visibility="Hidden"/>
+            <Button x:Name="buttonRestart"
+                    Content="Restart"
+                    Grid.Column="6"
+                    Grid.Row="8"
+                    Background="Gray"
+                    Click="buttonRestart_Click"
+                    Visibility="Hidden"/>
+            <Button x:Name="buttonEnd"
+                    Content="End"
+                    Grid.Column="8"
+                    Grid.Row="8"
+                    Background="Gray"
+                    Click="buttonEnd_Click"
+                    Visibility="Hidden"/>
+        </Grid>
+    </Border>
 </Window>

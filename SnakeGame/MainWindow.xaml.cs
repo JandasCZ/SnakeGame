@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -31,16 +32,7 @@ namespace SnakeGame
         {
             InitializeComponent();
 
-            for (int i = 0; i < 3; i++)
-            {
-                createBodyPart();
-            }
-            for (int i = 0; i < snake.Count; i++)
-            {
-                mainGrid.Children.Add(snake.ElementAt(i));
-                Grid.SetColumn(snake.ElementAt(i), 5 - i);
-                Grid.SetRow(snake.ElementAt(i), 7);
-            }
+            createBody();
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(0.5);
@@ -52,26 +44,27 @@ namespace SnakeGame
                                                                                                         //RUTINA KAŽDÉHO TICKU TIMERU
         private void Timer_Tick(object sender, EventArgs e)
         {
+            bodyMove();
+
             direction();
             if(direction() == 0)
             {
-                moveSnakeRight();
+                moveHeadRight();
             }
             if(direction() == 1)
             {
-                moveSnakeLeft();
+                moveHeadLeft();
             }
             if(direction() == 2)
             {
-                moveSnakeUp();
+                moveHeadUp();
             }
             if(direction() == 3)
             {
-                moveSnakeDown();
+                moveHeadDown();
             }
-            
         }
-                                                                                                        //VYTVOŘENÍ BODY PARTU SNAKA
+                                                                                                        //VYTVOŘENÍ BODY/BODY PARTU SNAKA
         public void createBodyPart()
         {
             Rectangle body = new Rectangle();
@@ -86,71 +79,74 @@ namespace SnakeGame
 
             snake.Add(body);
         }
+
+        public void createBody()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                createBodyPart();
+            }
+            for (int i = 0; i < snake.Count; i++)
+            {
+                mainGrid.Children.Add(snake.ElementAt(i));
+                Grid.SetColumn(snake.ElementAt(i), 5 - i);
+                Grid.SetRow(snake.ElementAt(i), 7);
+            }
+        }
                                                                                                         //MOVEMENT
-        public void moveSnakeRight()
+                                                                                                                    //HEAD MOVEMENT
+        public void moveHeadRight()
         {
-            for (int i = 0; i < snake.Count; i++)
+            int currentColumn = Grid.GetColumn(snake[0]);
+            if(currentColumn == 14)
             {
-                int currentColumn = Grid.GetColumn(snake.ElementAt(i));
-                if(currentColumn == 14)
-                {
-                    gameOver();
-                }
-                else
-                {
-                    Grid.SetColumn(snake.ElementAt(i), currentColumn + 1);
-                }
+                gameOver();
+            }
+            else
+            {
+                Grid.SetColumn(snake[0], currentColumn + 1);
             }
         }
 
-        public void moveSnakeLeft()
+        public void moveHeadLeft()
         {
-            for (int i = 0; i < snake.Count; i++)
+            int currentColumn = Grid.GetColumn(snake[0]);
+            if (currentColumn == 0)
             {
-                int currentColumn = Grid.GetColumn(snake.ElementAt(i));
-                if(currentColumn == 0)
-                {
-                    gameOver();
-                }
-                else
-                {
-                    Grid.SetColumn(snake.ElementAt(i), currentColumn - 1);
-                }
+                gameOver();
+            }
+            else
+            {
+                Grid.SetColumn(snake[0], currentColumn - 1);
             }
         }
 
-        public void moveSnakeUp()
+        public void moveHeadUp()
         {
-            for (int i = 0; i < snake.Count; i++)
+            int currentRow = Grid.GetRow(snake[0]);
+            if (currentRow == 0)
             {
-                int currentRow = Grid.GetRow(snake.ElementAt(i));
-                if(currentRow == 0)
-                {
-                    gameOver();
-                }
-                else
-                {
-                    Grid.SetRow(snake.ElementAt(i), currentRow - 1);
-                }
+                gameOver();
+            }
+            else
+            {
+                Grid.SetRow(snake[0], currentRow - 1);
             }
         }
 
-        public void moveSnakeDown()
+        public void moveHeadDown()
         {
-            for (int i = 0; i < snake.Count; i++)
+            int currentRow = Grid.GetRow(snake[0]);
+            if (currentRow == 14)
             {
-                int currentRow = Grid.GetRow(snake.ElementAt(i));
-                if(currentRow == 14)
-                {
-                    gameOver();
-                }
-                else
-                {
-                    Grid.SetRow(snake.ElementAt(i), currentRow + 1);
-                }
+                gameOver();
+            }
+            else
+            {
+                Grid.SetRow(snake[0], currentRow + 1);
             }
         }
-
+                                                                                                                    //DIRECTION
         int direc = 0;
         public int direction()
         {
@@ -201,11 +197,42 @@ namespace SnakeGame
 
             return direc;
         }
+                                                                                                                    //BODY MOVEMENT
+        public void bodyMove()
+        {
+            for(int i = snake.Count - 1; i >= 1; i--)
+            {
+                i--;
+                int previousColumn = Grid.GetColumn(snake[i]);
+                int previousRow = Grid.GetRow(snake[i]);
+                i++;
+                Grid.SetColumn(snake[i], previousColumn);
+                Grid.SetRow(snake[i], previousRow);
+            }
+        }
                                                                                                         //GAME OVER STATUS
         public void gameOver()
         {
             timer.Stop();
             labelGameOver.Visibility = Visibility.Visible;
+            buttonRestart.Visibility = Visibility.Visible;
+            buttonEnd.Visibility = Visibility.Visible;
+        }
+                                                                                                                    //BUTTONS
+        private void buttonRestart_Click(object sender, RoutedEventArgs e)
+        {
+            var currentExecutablePath = Process.GetCurrentProcess().MainModule.FileName;
+            Process.Start(currentExecutablePath);
+            Application.Current.Shutdown();
+
+            labelGameOver.Visibility = Visibility.Hidden;
+            buttonRestart.Visibility = Visibility.Hidden;
+            buttonEnd.Visibility = Visibility.Hidden;
+        }
+
+        private void buttonEnd_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
