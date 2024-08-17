@@ -68,6 +68,17 @@
                     Background="Gray"
                     Click="buttonEnd_Click"
                     Visibility="Hidden"/>
+            <Label x:Name="labelScore"
+                   Content="Score:"
+                   Grid.Column="6"
+                   Grid.ColumnSpan="3"
+                   Grid.Row="5"
+                   Background="Yellow"
+                   Margin="0,10,0,10"
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center"
+                   FontSize="15"
+                   Visibility="Hidden"/>
         </Grid>
     </Border>
 </Window>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -26,13 +27,18 @@ namespace SnakeGame
     {
                                                                                                         //HLAVNÍ SPUŠTĚNÝ KÓD
         List<Rectangle> snake = new List<Rectangle>();
+        List<Rectangle> foodList = new List<Rectangle>();
         DispatcherTimer timer;
+        int score = 0;
 
         public MainWindow()
         {
             InitializeComponent();
 
             createBody();
+
+            addFood();
+            addFood();
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(0.5);
@@ -44,6 +50,8 @@ namespace SnakeGame
                                                                                                         //RUTINA KAŽDÉHO TICKU TIMERU
         private void Timer_Tick(object sender, EventArgs e)
         {
+            isEating();
+
             bodyMove();
 
             direction();
@@ -64,7 +72,8 @@ namespace SnakeGame
                 moveHeadDown();
             }
         }
-                                                                                                        //VYTVOŘENÍ BODY/BODY PARTU SNAKA
+                                                                                                        //VYTVOŘENÍ ELEMENTŮ HRY
+                                                                                                                    //SNAKE PARTS
         public void createBodyPart()
         {
             Rectangle body = new Rectangle();
@@ -82,7 +91,7 @@ namespace SnakeGame
 
         public void createBody()
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
                 createBodyPart();
             }
@@ -92,6 +101,33 @@ namespace SnakeGame
                 Grid.SetColumn(snake.ElementAt(i), 5 - i);
                 Grid.SetRow(snake.ElementAt(i), 7);
             }
+        }
+                                                                                                                    //FOOD
+        public void createFood()
+        {
+            Rectangle food = new Rectangle();
+            food.Height = 20;
+            food.Width = 20;
+            food.Fill = Brushes.Red;
+            food.StrokeThickness = 3;
+            food.Stroke = Brushes.Black;
+            food.RadiusX = 50;
+            food.RadiusY = 50;
+
+            foodList.Add(food);
+        }
+
+        public void addFood()
+        {
+                createFood();
+
+                Random r = new Random();
+                int rColumn = r.Next(0, 14);
+                int rRow = r.Next(0, 14);
+
+                mainGrid.Children.Add(foodList.Last());
+                Grid.SetColumn(foodList.Last(), rColumn);
+                Grid.SetRow(foodList.Last(), rRow);
         }
                                                                                                         //MOVEMENT
                                                                                                                     //HEAD MOVEMENT
@@ -210,11 +246,65 @@ namespace SnakeGame
                 Grid.SetRow(snake[i], previousRow);
             }
         }
+                                                                                                        //COLLISION
+        private void isEating()
+        {
+            int snakeColumn = Grid.GetColumn(snake[0]);
+            int snakeRow = Grid.GetRow(snake[0]);
+
+            int foodColumn0 = Grid.GetColumn(foodList[0]);
+            int foodRow0 = Grid.GetRow(foodList[0]);
+
+            int foodColumn1 = Grid.GetColumn(foodList[1]);
+            int foodRow1 = Grid.GetRow(foodList[1]);
+
+            if(snakeColumn == foodColumn0 && snakeRow == foodRow0)
+            {
+                score++;
+                Random r = new Random();
+                int rColumn = r.Next(0, 14);
+                int rRow = r.Next(0, 14);
+
+                Grid.SetColumn(foodList[0], rColumn);
+                Grid.SetRow(foodList[0], rRow);
+
+                int tailColumn = Grid.GetColumn(snake.Last());
+                int tailRow = Grid.GetRow(snake.Last());
+
+                createBodyPart();
+                Grid.SetColumn(snake.Last(), tailColumn);
+                Grid.SetRow(snake.Last(), tailRow);
+                mainGrid.Children.Add(snake.Last());
+            }
+
+            if (snakeColumn == foodColumn1 && snakeRow == foodRow1)
+            {
+                score++;
+                Random r = new Random();
+                int rColumn = r.Next(0, 14);
+                int rRow = r.Next(0, 14);
+
+                Grid.SetColumn(foodList[1], rColumn);
+                Grid.SetRow(foodList[1], rRow);
+
+                int tailColumn = Grid.GetColumn(snake.Last());
+                int tailRow = Grid.GetRow(snake.Last());
+
+                createBodyPart();
+                Grid.SetColumn(snake.Last(), tailColumn);
+                Grid.SetRow(snake.Last(), tailRow);
+                mainGrid.Children.Add(snake.Last());
+            }
+        }
                                                                                                         //GAME OVER STATUS
         public void gameOver()
         {
             timer.Stop();
+
+            labelScore.Content = "Score: " + score;
+
             labelGameOver.Visibility = Visibility.Visible;
+            labelScore.Visibility = Visibility.Visible;
             buttonRestart.Visibility = Visibility.Visible;
             buttonEnd.Visibility = Visibility.Visible;
         }
