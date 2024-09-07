@@ -29,6 +29,7 @@ namespace SnakeGame
         List<Rectangle> snake = new List<Rectangle>();
         List<Rectangle> foodList = new List<Rectangle>();
         DispatcherTimer timer;
+        DispatcherTimer timerQuick;
         int score = 0;
 
         public MainWindow()
@@ -44,10 +45,21 @@ namespace SnakeGame
             timer.Interval = TimeSpan.FromSeconds(0.5);
             timer.Tick += Timer_Tick;
             timer.Start();
+
+            timerQuick = new DispatcherTimer();
+            timerQuick.Interval = TimeSpan.FromMilliseconds(0.01);
+            timerQuick.Tick += TimerQuick_Tick;
+            timerQuick.Start();
         }
 
         
                                                                                                         //RUTINA KAŽDÉHO TICKU TIMERU
+
+        public void TimerQuick_Tick(object sender, EventArgs e)
+        {
+            direction();
+        }
+
         private void Timer_Tick(object sender, EventArgs e)
         {
             isColliding();
@@ -56,7 +68,6 @@ namespace SnakeGame
 
             bodyMove();
 
-            direction();
             if(direction() == 0)
             {
                 moveHeadRight();
